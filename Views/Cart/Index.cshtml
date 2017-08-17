@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+@using ElectronicsShop.Models
+
+    <div class="title"><span class="title_icon"><img alt="" src="~/Content/User/images/bullet1.gif"></span>My cart</div>
+    <div class="row feat_prod_box_details">
+        <table class="cart_table col-md-12">
+            <tbody>
+                <tr class="cart_title">
+                    <td>Option</td>
+                    <td>Item pic</td>
+                    <td>Product name</td>
+                    <td>Unit price</td>
+                    <td>Qty</td>
+                    <td>Total</td>
+                </tr>
+               @{ int index = 0; }
+                @if (Session["cart"] != null)
+                {
+                    foreach (var item in (List<Item>)Session["cart"])
+                      {
+                     <tr>
+                        <td><a href="@Url.Action("Delete", "Cart", new { id = index})">X</a></td>
+                         <td>
+                           <a href="@Url.Action("Details", "Product", new { id=item.product.id})">
+                           <img class="cart_thumb" alt="" src="@item.product.image" border="0" width="50" height="50">
+                           </a>
+                         </td>
+                         <td>@item.product.name</td>
+                         <td>£ @string.Format("{0:N2}", item.product.price)</td>
+                          <td>@item.quantity</td>
+                          <td>£ @string.Format("{0:N2}", item.product.price * item.quantity)</td>
+                      </tr>
+                     index++;
+                        }
+                }
+                
+                <tr>
+                    <td class="cart_total" colspan="5"><span class="red">TOTAL:</span></td>
+                    <td>£ 
+                    @{ 
+                        double s = 0;
+                        if (Session["cart"] != null)
+                        {
+                            List<Item> cart = (List<Item>)Session["cart"];
+                            s = cart.Sum(i => i.quantity * i.product.price);
+                        }
+                    }
+                    @string.Format("{0:N2}", s)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-md-12">
+            <a class="continue" href="@Url.Action("Index", "Home")">&lt; continue</a>
+            <a class="checkout" href="@Url.Action("Checkout", "Cart")">checkout &gt;</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+

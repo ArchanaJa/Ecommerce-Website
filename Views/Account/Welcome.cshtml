@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "MyAccount";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+
+    <div class="title"><span class="title_icon">
+        <img src="images/bullet1.gif" alt=""></span>Profile</div>
+    <div class="feat_prod_box_details">
+        <p class="details"> Welcome @Session["username"].ToString()
+        <br /></p>
+        <a href="@Url.Action("Logout", "Account")">Logout</a>
+        <br />
+        <br />
+       
+
+    </div>
+    <div class="clear"></div>
+
+

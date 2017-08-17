@@ -1,0 +1,61 @@
+﻿@model ElectronicsShop.Models.Account
+@using ElectronicsShop.Models
+@{
+    ViewBag.Title = "MyAccount";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+
+    <div class="title"><span class="title_icon"><img src="../Content/User/images/bullet1.gif" alt=""></span>My account</div>
+    <div class="feat_prod_box_details col-md-9">
+        <p class="details"> My Account Page</p>
+       @if(Session["username"] == null)
+       {
+        <div class="contact_form col-md-8">
+            <div class="form_subtitle">Login into Your Account</div>
+            @ViewBag.error
+            @using (Html.BeginForm("MyAccount", "Account", FormMethod.Post))
+            { 
+                <div class="form_row row">
+                    <label class="contact col-md-3" ><strong>Username:</strong></label>
+                    @Html.TextBoxFor(model => model.Username, new { @class = "contact_input col-md-6" })
+                </div>
+                <div class="form_row row" >
+                    <label class="contact col-md-3"><strong>Password:</strong></label>
+                    @Html.PasswordFor(model=>model.Password, new { @class="contact_input col-md-6"})
+                </div>
+                
+                <div class="form_row text-center">
+                    <input type="submit" class="register" value="Login">
+                </div>
+
+                <div class="col-md-10">
+                    <p>
+                        For Admin Login type,<br /> Username: Archana and Password: 12345<br />
+                        Thank you!!!
+                    </p>
+                </div>
+            }
+        </div>
+        
+       }
+       else
+       {
+        <div class="title">
+            <span class="title_icon">
+                <img src="../Content/User/images/bullet1.gif" alt="">
+            </span>Profile
+        </div>
+        <div class="feat_prod_box_details">
+            <p class="details">
+                Welcome @Session["username"].ToString()
+                <br />
+            </p>
+            
+            </div>
+            }
+
+        </div>
+    <div class="clear"></div>
+
+

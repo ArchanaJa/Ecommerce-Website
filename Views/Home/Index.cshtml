@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+    
+    <div class="title row">
+        <span class="title_icon">
+            <img src="~/Content/User/images/bullet2.gif" alt="">
+        </span>New products
+    </div>
+    <div class="new_products col-md-12">
+        @foreach (var product in ViewBag.latestProducts)
+        {
+            <div class="new_prod_box col-md-6">
+                <a href="@Url.Action("Details", "Product", new { id=product.id})">@product.name</a>
+                <div class="new_prod_bg text-center">
+                    <span class="new_icon">
+                        <img src="~/Content/User/images/new_icon.gif" alt="">
+                    </span>
+                    <a href="@Url.Action("Details", "Product", new { id=product.id})">
+                        <img src="@product.image" alt="" class="thumb" border="0">
+                    </a>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div class="clear"></div>
+

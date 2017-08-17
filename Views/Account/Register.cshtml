@@ -1,0 +1,43 @@
+﻿@model ElectronicsShop.Models.Account
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+
+    <div class="title"><span class="title_icon"><img src="~/Content/User/images/bullet1.gif" alt=""></span>Register</div>
+    <div class="feat_prod_box_details col-md-8 col-lg-offset-1">
+        <p class="details"> Please Fill The Form To Register Your Account </p>
+        <div class="contact_form row">
+            <div class="form_subtitle">Create New Account</div>
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post)) {
+            <div class="form_row row">
+                <label class="contact col-md-3"><strong>Username:</strong></label>
+                @Html.TextBoxFor(model=>model.Username, new { @class="contact_input col-md-6"})
+                </div>
+                <div class="form_row row">
+                    <label class="contact col-md-3"><strong>Password:</strong></label>
+                    @Html.PasswordFor(model => model.Password, new { @class = "contact_input col-md-6" })
+                    </div>
+                <div class="form_row row">
+                    <label class="contact col-md-3"><strong>Full Name:</strong></label>
+                    @Html.TextBoxFor(model => model.Fullname, new { @class = "contact_input col-md-6" })
+                </div>
+                <div class="form_row row">
+                    <label class="contact col-md-3"><strong>Email:</strong></label>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "contact_input col-md-6" })
+                </div>
+                <div class="form_row row">
+                    <label class="contact col-md-3"><strong>Role:</strong></label>
+                    @Html.TextBoxFor(model => model.Role, new { @class = "contact_input col-md-6", placeholder = "Type Role: user" })
+                </div>
+
+                <div class="form_row  text-center">
+                    <input type="submit" class="register" value="Register">
+                </div>
+            }
+        </div>
+    </div>
+    <div class="clear"></div>
+
+

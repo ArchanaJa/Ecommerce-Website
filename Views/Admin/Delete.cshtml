@@ -1,0 +1,66 @@
+﻿@model ElectronicsShop.Models.Product
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+<div class="well">
+    <h2 class="database-header animated fadeIn">Remove</h2>
+    <div class="vertical-rhythm">
+        <h4 class="animated fadeIn">@Html.DisplayFor(model => model.name)</h4>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+        <dd>
+            <img src=@Html.DisplayFor(model => model.image) width="482" height="321">
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+              
+        <dt>
+            Price (£)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+        <dt>
+            category
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.categoryId)
+        </dd>
+        
+    </dl>
+    <div class="vertical-rhythm">
+        <div class="form-group">
+
+            <div class="col-md-2">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default pull-right" })
+            </div>
+            <div class="col-md-2">
+                @using (Html.BeginForm())
+                {
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+
+
+

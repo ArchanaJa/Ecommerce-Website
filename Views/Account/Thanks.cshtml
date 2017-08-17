@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Thanks";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+    var o = Session["order"];
+}
+
+@using ElectronicsShop.Models
+
+<div class="title"><span class="title_icon"><img alt="" src="~/Content/User/images/bullet1.gif"></span>Thanks</div>
+<div class="feat_prod_box_details">
+    <p>Thanks for buying my product. Click <a href="@Url.Action("Index", "Home")">here</a> to continue</p>
+</div>
+@if (o != null)
+{
+    <div class="table-responsive">
+        <table class="cart_table col-md-12">
+            <tbody>
+                <tr class="cart_title">
+                    <td>Item pic</td>
+                    <td>Product name</td>
+                    <td>Unit price</td>
+                    <td>Qty</td>
+                    <td>Total</td>
+                </tr>
+                @{ int index = 0; }
+                @foreach (var item in (List<Item>)o)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Details", "Product", new { id = item.product.id })" >
+                                <img class="cart_thumb" alt="" src="@item.product.image" border="0" width="50" height="50">
+                            </a>
+                        </td>
+                        <td>@item.product.name</td>
+                        <td>£ @string.Format("{0:N2}", item.product.price)</td>
+                        <td>@item.quantity</td>
+                        <td>£ @string.Format("{0:N2}", item.product.price * item.quantity)</td>
+                    </tr>
+                    index++;
+                }
+
+                    <tr>
+                        <td class="cart_total" colspan="4"><span class="red">TOTAL:</span></td>
+                        <td>
+                            £
+                            @{
+                                double s = 0;
+                                    List<Item> cart = (List<Item>)o;
+                                    s = cart.Sum(i => i.quantity * i.product.price);
+                            }
+                            @string.Format("{0:N2}", s)
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <br />
+    </div>
+}

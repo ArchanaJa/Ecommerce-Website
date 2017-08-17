@@ -1,0 +1,133 @@
+﻿@using ElectronicsShop.Repository
+@using ElectronicsShop.Models
+@using ElectronicsShop.Extensions
+
+@{
+    ICategoryRepository icategoryRepository = new CategoryRepository();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+   
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="icon" href="~/Content/User/images/favicon.ico" type="image/x-icon">
+    <link href="~/Content/User/css/style.css" rel="stylesheet" />
+    @RenderSection("head", false)
+</head>
+<body>
+    
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="media logo">
+                        <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                            <img src="~/Content/User/images/logo.gif" alt="" border="0" />
+                        </a>
+                    </div>
+                    @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav pull-right">
+                        <li @(ViewContext.RouteData.Values["action"].ToString().Equals("Index") && ViewContext.RouteData.Values["controller"].ToString().Equals("Home") ? "class=selected" : "")><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        @*<li @(ViewContext.RouteData.Values["action"].ToString().Equals("Index") && ViewContext.RouteData.Values["controller"].ToString().Equals("AboutUs") ? "class=selected" : "")><a href="@Url.Action("Index", "AboutUs")">About us</a></li>*@
+                        <li @(ViewContext.RouteData.Values["action"].ToString().Equals("Latest") && ViewContext.RouteData.Values["controller"].ToString().Equals("Product") ? "class=selected" : "")><a href="@Url.Action("Latest", "Product")">Products</a></li>
+                                               
+                        @if (Html.IsAdmin())
+                        {
+                            <li @(ViewContext.RouteData.Values["action"].ToString().Equals("Index") && ViewContext.RouteData.Values["controller"].ToString().Equals("Admin") ? "class=selected" : "")><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+                        }
+                        @if (Session["username"] == null || string.IsNullOrEmpty(Session["username"].ToString()))
+                        {
+                            <li @(ViewContext.RouteData.Values["action"].ToString().Equals("MyAccount") && ViewContext.RouteData.Values["controller"].ToString().Equals("Account") ? "class=selected" : "")><a href="@Url.Action("MyAccount", "Account")">Login</a></li>
+                            <li @(ViewContext.RouteData.Values["action"].ToString().Equals("Register") && ViewContext.RouteData.Values["controller"].ToString().Equals("Account") ? "class=selected" : "")><a href="@Url.Action("Register", "Account")">Register</a></li>
+                        }
+                        else
+                        {
+                            <li @(ViewContext.RouteData.Values["action"].ToString().Equals("Logout") && ViewContext.RouteData.Values["controller"].ToString().Equals("Account") ? "class=selected" : "")><a href="@Url.Action("Logout", "Account" )">Logout</a></li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+       
+    <div class="jumbotron header">
+        <h1></h1>
+        <p class="lead"></p>
+        <p><a href="@Url.Action("Latest", "Product")" class="right btn btn-info">New Products on sale &raquo;</a></p>
+    </div>
+        <div class="container body-content">
+            <div class="col-md-8 left_content ">
+                @RenderBody()
+            </div>
+            <!--end of left content-->
+            <div class="col-md-4 right_content">
+                <div class="cart">
+                    <div class="title">
+                        <span class="title_icon">
+                            <img src="~/Content/User/images/cart.gif" alt="" />
+                        </span>My cart
+                    </div>
+                    <div class="home_cart_content">
+                        @{
+                            var n = 0;
+                            double sum = 0;
+                            if (Session["cart"] != null)
+                            {
+                                List<Item> cart = (List<Item>)Session["cart"];
+                                n = cart.Count;
+                                sum = cart.Sum(item => item.product.price * item.quantity);
+                            }
+
+                        }
+                        @n x items | <span class="red">TOTAL: £ @string.Format("{0:N2}", sum)</span>
+                    </div>
+                    <a href="@Url.Action("Index", "Cart")" class="view_cart">View Cart</a>
+                </div>
+                @*<div class="title"><span class="title_icon"><img src="~/Content/User/images/bullet3.gif" alt="" /></span>About Our Shop</div>
+                    <div class="about">
+                        <p> <img src="~/Content/User/images/about.gif" alt="" class="right" /> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. </p>
+                    </div>*@
+
+                <div class="right_box">
+                    <div class="title"><span class="title_icon"><img src="~/Content/User/images/bullet5.gif" alt="" /></span>Categories</div>
+                    <ul class="list">
+                        @foreach (var category in icategoryRepository.findAll())
+                        {
+                            <li><a href="@Url.Action("Category", "Product", new { id = category.id})">@category.name</a></li>
+                        }
+                    </ul>
+
+                </div>
+            </div>
+            <!--end of right content-->
+            <div class="clear"></div>
+        </div>
+  
+        <!--end of center content-->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>
+                        <span>© 2017 <a href="#">Archana's Ecommerce Website</a></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
